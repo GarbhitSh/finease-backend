@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Excel</title>
+
+    <!-- Include SheetJS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+    <!-- Your custom script -->
+    <script>
+        // Load and render Excel file
+        function renderExcel() {
+            var url = 'chequeaiml/Cheque_details.xlsx';
+            var oReq = new XMLHttpRequest();
+            oReq.open("GET", url, true);
+            oReq.responseType = "arraybuffer";
+
+            oReq.onload = function (e) {
+                var arraybuffer = oReq.response;
+
+                /* convert data to binary string */
+                var data = new Uint8Array(arraybuffer);
+                var arr = [];
+                for (var i = 0; i !== data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+                var bstr = arr.join("");
+
+                /* Call XLSX */
+                var workbook = XLSX.read(bstr, { type: "binary" });
+
+                /* DO SOMETHING WITH workbook HERE */
+            };
+
+            oReq.send();
+        }
+
+        // Call the function to render Excel when the page loads
+        window.onload = renderExcel;
+    </script>
+</head>
+<body>
+
+    <h1>Cheque UPDATE</h1>
+
+    <!-- Display Excel content here using JavaScript -->
+
+</body>
+</html>
